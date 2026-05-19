@@ -1,160 +1,238 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>O Enigma Binário do José</title>
-<style>
-    :root {
-        --lilas-claro: #e6e6fa;
-        --lilas-medio: #c8a2c8;
-        --lilas-escuro: #9370db;
-        --rosa-claro: #fff0f5;
-        --rosa-forte: #ff69b4;
-        --grafite: #333333;
-    }
-
-    body {
-        font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
-        background-color: #f9f9f9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        overflow: hidden;
-    }
-
-    /* CONTAINER DO QUADRO */
-    #quadro-container {
-        width: 90%;
-        max-width: 600px;
-        background: white;
-        padding: 40px;
-        border: 12px solid var(--lilas-medio);
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        position: relative;
-        text-align: center;
-    }
-
-    #caixa-texto {
-        min-height: 250px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        color: var(--grafite);
-        font-size: 1.15rem;
-        line-height: 1.6;
-        transition: opacity 0.5s ease;
-    }
-
-    .destaque-rosa {
-        color: var(--rosa-forte);
-        font-weight: bold;
-    }
-
-    .destaque-lilas {
-        color: var(--lilas-escuro);
-        font-weight: bold;
-    }
-
-    .codigo-binario {
-        background: var(--rosa-claro);
-        padding: 5px 15px;
-        border-radius: 8px;
-        font-family: 'Courier New', monospace;
-        letter-spacing: 3px;
-        border: 1px dashed var(--rosa-forte);
-        display: inline-block;
-        margin: 10px 0;
-    }
-
-    #btn-navegar {
-        background-color: var(--lilas-escuro);
-        color: white;
-        border: none;
-        padding: 15px 35px;
-        font-size: 1rem;
-        border-radius: 50px;
-        cursor: pointer;
-        margin-top: 25px;
-        transition: background 0.3s, transform 0.2s;
-        box-shadow: 0 4px 10px rgba(147, 112, 219, 0.3);
-    }
-
-    #btn-navegar:hover {
-        background-color: var(--rosa-forte);
-        transform: translateY(-2px);
-    }
-
-    #btn-navegar:active {
-        transform: translateY(0);
-    }
-
-    /* ELEMENTOS DECORATIVOS */
-    .detalhe {
-        position: absolute;
-        font-size: 2rem;
-        opacity: 0.2;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Misterioso CPF do José - Jogo das Dicas</title>
+    <style>
+        body {
+            background-color: #fbf6fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px 15px;
+            color: #4a148c;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header-card {
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+            border: 2px solid #f8bbd0;
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 24px rgba(156, 39, 176, 0.08);
+        }
+        h1 {
+            color: #d81b60;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        .saudacao {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ab47bc;
+            margin-bottom: 15px;
+        }
+        .mensagem {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #6a1b9a;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.04);
+            border: 1px solid #f3e5f5;
+            border-left: 6px solid #e1bee7;
+            
+            /* Escondido no início para o efeito de avanço */
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .card.mostrar {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card.pink-accent {
+            border-left-color: #f8bbd0;
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 15px;
+            color: #c2185b;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #5c307d;
+        }
+        .card-content em {
+            color: #880e4f;
+            font-size: 13.5px;
+        }
+        .final-card {
+            background: linear-gradient(135deg, #f3e5f5 0%, #fce4ec 100%);
+            border: 2px dashed #ba68c8;
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 8px 24px rgba(156, 39, 176, 0.08);
+            
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .final-card.mostrar {
+            display: block;
+            opacity: 1;
+        }
+        .revelacao-texto {
+            font-size: 20px;
+            color: #ad1457;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .numero-box {
+            display: inline-block;
+            font-size: 46px;
+            font-weight: bold;
+            background-color: #d81b60;
+            color: white;
+            width: 75px;
+            height: 75px;
+            line-height: 75px;
+            border-radius: 50%;
+            margin-top: 10px;
+            box-shadow: 0 6px 16px rgba(216, 27, 96, 0.35);
+        }
+        /* Botão Mágico */
+        .btn-avancar {
+            background: linear-gradient(135deg, #ec407a 0%, #ab47bc 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(171, 71, 188, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        .btn-avancar:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.6);
+        }
+        .btn-avancar:active {
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 <body>
 
-<div id="quadro-container">
-    <!-- Decoração de cantos -->
-    <div class="detalhe" style="top: 10px; left: 10px; color: var(--rosa-forte);">01</div>
-    <div class="detalhe" style="bottom: 10px; right: 10px; color: var(--lilas-escuro);">10</div>
+    <div class="container">
+        <!-- Card Inicial -->
+        <div class="header-card">
+            <h1>✨ O Último Número do CPF do José! ✨</h1>
+            <p class="saudacao">💖 Parabéns, tia Ingrid, por chegar até aqui! 💖</p>
+            <p class="mensagem">
+                Efraim andou bem atarefado e não conseguiu acabar nos dias anteriores. Mas hoje ele conseguiu terminar tudo! Vamos ver as pistas? 🥰
+            </p>
+            <button class="btn-avancar" id="btnProximo" onclick="avancarEtapa()">Ver Primeira Dica ✨</button>
+        </div>
 
-    <div id="caixa-texto">
-        Avançamos no primeiro e no segundo número do misterioso CPF do José!! <br><br>
-        A titia faltante mandou muito bem ao descobrir esses 2 números. Parabéns, titia!!
+        <!-- Card Dica 1 -->
+        <div class="card" id="dica1">
+            <div class="card-title">🔍 Primeira Dica</div>
+            <div class="card-content">
+                Esse número está entre 0 e 9... <br>
+                <em>(Acho que o Efraim está ficando piadista igual ao José kkkkk)</em> 🤭
+            </div>
+        </div>
+
+        <!-- Card Dica 2 -->
+        <div class="card pink-accent" id="dica2">
+            <div class="card-title">✨ Segunda Dica</div>
+            <div class="card-content">
+                Este número misterioso é <strong>par</strong>! 💫
+            </div>
+        </div>
+
+        <!-- Card Dica 3 -->
+        <div class="card" id="dica3">
+            <div class="card-title">🎂 Terceira Dica</div>
+            <div class="card-content">
+                Ele fará parte da idade da senhora no fim deste ano... 🥳
+            </div>
+        </div>
+
+        <!-- Card Dica 4 -->
+        <div class="card pink-accent" id="dica4">
+            <div class="card-title">🧠 Última Dica</div>
+            <div class="card-content">
+                É um número par e primo... sendo o <strong>único</strong> número do mundo com essa propriedade! 👑
+            </div>
+        </div>
+
+        <!-- Card de Revelação Final -->
+        <div class="final-card" id="resultado">
+            <div class="revelacao-texto">🎉 E a resposta final é... 🎉</div>
+            <div class="numero-box">2</div>
+        </div>
     </div>
 
-    <button id="btn-navegar" onclick="proximo()">Seguir para o 3º Número</button>
-</div>
+    <script>
+        let etapaAtual = 0;
+        const totalEtapas = 5; // 4 dicas + 1 revelação
 
-<script>
-    const falas = [
-        "Hoje, José resolveu 'baixar a régua'! O enigma agora é nível Ensino Fundamental 1 para descobrir o terceiro número do CPF.",
+        function avancarEtapa() {
+            etapaAtual++;
+            
+            const botao = document.getElementById('btnProximo');
 
-        "<strong>Dica 1:</strong> A senhora aprendeu a estratégia de somar os primeiros números das tabelas para achar o valor escolhido. Hoje, vamos entender o que está 'por trás dos panos'!",
-
-        "<strong>Dica 2:</strong> Quando escrevemos 19, fazemos: <br> <span class='destaque-lilas'>19 = 1 • 10 + 9 • 1</span>. <br>Isso é a nossa base decimal.",
-
-        "<strong>Dica 3:</strong> Agora usaremos a <strong>Base Binária</strong>. <br> Se temos <span class='codigo-binario'>0 1 0 1</span>, o valor é: <br> 2³ • 0 + 2² • 1 + 2¹ • 0 + 2⁰ • 1 = <span class='destaque-rosa'>5</span>",
-
-        "<strong>Dica 4:</strong> O terceiro dígito é um número <strong>primo</strong>. <br> Converta este binário: <br> <span class='codigo-binario'>0 1 1 1</span>",
-
-        "<strong>Dica 5:</strong> A senhora já teve esse número na idade 3 vezes, mas nunca teve ele repetido (como o 22).",
-
-        "<strong>Dica Extra do Efraim:</strong> <br> <span class='codigo-binario'>0 1 1 1</span> = <br> 2³ • 0 + 2² • 1 + 2¹ • 1 + 2⁰ • 1",
-
-        "É isso! Espero que a senhora descubra... <br><br> <span class='destaque-lilas'>Fico esperando a resposta no WhatsApp!!</span>"
-    ];
-
-    let indice = 0;
-    const caixaTexto = document.getElementById('caixa-texto');
-    const btn = document.getElementById('btn-navegar');
-
-    function proximo() {
-        caixaTexto.style.opacity = "0";
-
-        setTimeout(() => {
-            if (indice < falas.length) {
-                caixaTexto.innerHTML = falas[indice];
-                btn.innerText = (indice === falas.length - 1) ? "Reiniciar" : "Continuar Enigma";
-                indice++;
-            } else {
-                indice = 0;
-                caixaTexto.innerHTML = "Avançamos no primeiro e no segundo número do misterioso CPF do José!! <br><br> A titia faltante mandou muito bem! Parabéns, titia!!";
-                btn.innerText = "Seguir para o 3º Número";
+            if (etapaAtual === 1) {
+                exibirElemento('dica1');
+                botao.innerHTML = 'Ver Segunda Dica ✨';
+            } else if (etapaAtual === 2) {
+                exibirElemento('dica2');
+                botao.innerHTML = 'Ver Terceira Dica ✨';
+            } else if (etapaAtual === 3) {
+                exibirElemento('dica3');
+                botao.innerHTML = 'Ver Última Dica 🧠';
+            } else if (etapaAtual === 4) {
+                exibirElemento('dica4');
+                botao.innerHTML = 'Revelar Número Final! 🎉';
+            } else if (etapaAtual === 5) {
+                exibirElemento('resultado');
+                // Esconde o botão ou muda o texto quando acabar
+                botao.style.display = 'none';
             }
-            caixaTexto.style.opacity = "1";
-        }, 500);
-    }
-</script>
+            
+            // Rola a página suavemente para baixo para acompanhar o novo card
+            setTimeout(() => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 100);
+        }
+
+        function exibirElemento(id) {
+            const elemento = document.getElementById(id);
+            elemento.classList.add('mostrar');
+        }
+    </script>
 
 </body>
 </html>
